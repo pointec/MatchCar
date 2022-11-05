@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Publicar rutas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  
+
+  <app-banner></app-banner>
+
+  
+  <!-- <form [formGroup]="formBuscar"> -->
+  <ion-card>
+  <ion-grid>
+
+    <ion-row>
+      <ion-col><ion-searchbar search-icon="location-outline" placeholder="Lugar de partida" [(ngModel)]="interpolacion.origen"></ion-searchbar></ion-col>
+      </ion-row>
+
+    <ion-row>
+      <ion-col><ion-searchbar search-icon="location-outline" placeholder="Lugar de destino" [(ngModel)]="interpolacion.destino"></ion-searchbar></ion-col>
+      </ion-row>
+
+    <ion-row>
+      <ion-col class="dp">
+        <mat-form-field  appearance="fill">
+          <mat-label >¿Cuando realizaré el viaje?</mat-label>
+          <input  matInput [matDatepicker]="picker" [(ngModel)]="interpolacion.fecha" disabled>
+          <mat-datepicker-toggle class="dp" matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker disabled="false" touchUi #picker></mat-datepicker>
+        </mat-form-field>
+      </ion-col>
+      
+
+      <ion-col>
+        <ion-item>
+          <ion-icon name="people-outline"></ion-icon>
+        <ion-input type="number" placeholder="   Asientos disponibles" max="6" min="1" [(ngModel)]="interpolacion.pasajeros"></ion-input>
+      </ion-item>
+    </ion-col>
+      
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+ 
+          <ion-button color="primary"  expand="block" (click)="publicarRutas()">Publicar</ion-button>
+    
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-card>
+
+
+
+
+
+</ion-content>

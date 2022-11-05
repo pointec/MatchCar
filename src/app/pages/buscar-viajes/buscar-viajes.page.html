@@ -1,0 +1,67 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Buscar Viajes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+
+  <ion-grid>
+    
+    <ion-row>
+    Criterio de búsqueda:
+    </ion-row>
+
+    <ion-row>
+    
+    <ion-item  detail="true" >
+      <ion-icon name="search-outline" slot="start"></ion-icon>
+      <ion-label class="ion-text-wrap">
+        <p>{{ getting.origen }} | {{ getting.destino}} <ion-icon name="people-outline"></ion-icon> {{ getting.pasajeros}}</p>
+        </ion-label>
+    </ion-item>
+  </ion-row>
+
+  <ion-row>
+    <h4>Resultados encontrados para {{getting.fecha}}</h4>
+  </ion-row>
+
+  <ion-row  *ngFor="let rutas of rutas">
+    <ion-accordion-group>
+      
+      <ion-accordion value="first">
+        <ion-item slot="header" color="light">
+          <ion-avatar slot="start">
+            <img alt="Ver perfil" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+          </ion-avatar>
+          <ion-label class="ion-text-wrap">{{ rutas.precio }} | {{ rutas.origen }} | {{ rutas.destino}}</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <h3>Conductor: {{ rutas.conductor }}</h3>
+          <h3>Vehículo: {{ rutas.vehiculo }}</h3>
+          <h3>Patente: {{ rutas.patente }}</h3>
+          <h3>Origen: {{ rutas.origen }}</h3>
+          <h3>Destino: {{ rutas.destino }}</h3>
+          <h3>Asientos disponibles: {{ rutas.asientos }}</h3>
+          <h3>Precio: {{ rutas.precio }}</h3>
+          <h3>Calificación: <ion-icon name="star-sharp"></ion-icon><ion-icon name="star-sharp"></ion-icon><ion-icon name="star-sharp"></ion-icon><ion-icon name="star-half-sharp"></ion-icon></h3>
+          <ion-button fill="outline" (click)="MakeMacth()">Confirmar</ion-button>
+        </div>
+      </ion-accordion>
+    
+    
+    </ion-accordion-group>
+  </ion-row>
+ 
+
+
+    </ion-grid>
+    
+  
+    
+
+</ion-content>

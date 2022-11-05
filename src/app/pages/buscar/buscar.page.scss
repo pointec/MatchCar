@@ -1,0 +1,36 @@
+h4{
+    text-align: center;
+}
+
+.historial{
+    padding-top: 20px;
+}
+
+ion-card{
+    border-radius: 10px;
+}
+
+.dp{
+    
+    text-align: center;
+    
+}
+
+ion-content{
+    --ion-background-color:#ffffff;  
+    width: calc(100% + 20px);
+    margin-top: 0px;
+}
+
+ion-header{
+    text-align: center;
+    
+}
+
+ion-title, ion-item, h4{
+    color: #912D91;
+}
+
+h4{
+    font-weight: bolder;
+}

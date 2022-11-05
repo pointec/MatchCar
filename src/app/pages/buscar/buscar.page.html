@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Busca rutas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- <form [formGroup]="formBuscar"> -->
+  <ion-card>
+  <ion-grid>
+
+    <ion-row>
+      <ion-col><ion-searchbar search-icon="location-outline" placeholder="Donde me recogen" [(ngModel)]="interpolacion.origen"></ion-searchbar></ion-col>
+      </ion-row>
+
+    <ion-row>
+      <ion-col><ion-searchbar search-icon="location-outline" placeholder="A donde voy" [(ngModel)]="interpolacion.destino"></ion-searchbar></ion-col>
+      </ion-row>
+
+    <ion-row>
+      <ion-col class="dp">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label class="dp">¿Cuando quieres viajar?</mat-label>
+          <input  matInput [matDatepicker]="picker" [(ngModel)]="interpolacion.fecha" disabled>
+          <mat-datepicker-toggle class="dp" matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker disabled="false" touchUi #picker></mat-datepicker>
+        </mat-form-field>
+      </ion-col>
+      
+      <ion-col>
+        <ion-item>
+          <ion-icon name="people-outline"></ion-icon>
+        <ion-input type="number" placeholder=" Cantidad pasajeros" max="6" min="1" [(ngModel)]="interpolacion.pasajeros"></ion-input>
+      </ion-item>
+    </ion-col>
+      
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+ 
+          <ion-button color="primary"  expand="block" (click)="buscarRutas()">Buscar</ion-button>
+    
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+</ion-card>
+
+<!-- </form> -->
+
+<ion-grid class="historial">
+
+<h4>Historial de búsqueda</h4>
+
+<ion-item  button detail="true" *ngFor="let historial of historial" (click)="buscarRutas()">
+  <ion-icon name="map-outline" slot="start"></ion-icon>
+  <ion-label class="ion-text-wrap"><h3>{{ historial.origen }} | {{ historial.destino}} <ion-icon name="people-outline"></ion-icon> {{ historial.pasajeros}}</h3>
+    </ion-label>
+</ion-item>
+</ion-grid>
+
+
+</ion-content>
