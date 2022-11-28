@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { DbService } from 'src/app/services/db.service';
 
 @Component({
   selector: 'app-publicar',
@@ -10,16 +11,18 @@ import { AlertController } from '@ionic/angular';
 export class PublicarPage implements OnInit {
   //result: string;
 
-  constructor(private router:Router, private alertController: AlertController) { }
+  constructor(private router:Router, private alertController: AlertController,
+    private DbService:DbService ) { }
 
       //Interpolacion, envio de objeto
 interpolacion={
   origen:"",
   destino:"",
-  fecha: "",
-  pasajeros:""
+  asientos:"",
+  estado:1,
+  tipoUsuario:"Conductor",
+  precio:0
 }
-
 
 
 async publicarRutas() {
@@ -31,10 +34,12 @@ async publicarRutas() {
         role: 'cancel',
       
       },
-      {
+      {   
         text: 'Confirmar',
         role: 'confirm',
         handler: () => {
+          this.DbService.CrearViaje(this.interpolacion.origen, this.interpolacion.destino, this.interpolacion.asientos, this.interpolacion.estado, this.interpolacion.tipoUsuario, this.interpolacion.precio);
+          this.DbService.presentToast("Ruta registrada");
           this.router.navigate(['/menutabs/viajes']);
         },
       },

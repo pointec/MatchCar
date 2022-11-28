@@ -15,7 +15,7 @@
         <ion-col>
           <ion-item>
             <ion-label position="floating">Usuario</ion-label>
-            <ion-input type="email" placeholder="Ingrese su usuario" formControlName="usuario"></ion-input>
+            <ion-input type="text" placeholder="Ingrese su usuario" formControlName="usuario" [(ngModel)]="interpolacion.nombre"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -24,7 +24,7 @@
         <ion-col>
           <ion-item>
             <ion-label position="floating">Contraseña</ion-label>
-            <ion-input type="password" placeholder="Ingrese su contraseña" formControlName="contrasena"></ion-input>
+            <ion-input type="password" placeholder="Ingrese su contraseña" formControlName="contrasena" [(ngModel)]="interpolacion.clave"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -32,7 +32,7 @@
       <ion-row>
         <ion-col>
    
-            <ion-button   expand="block" (click)="login()">Ingresar</ion-button>
+            <ion-button   expand="block" (click)=" LoginUsuario()">Ingresar</ion-button>
       
         </ion-col>
       </ion-row>
