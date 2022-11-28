@@ -18,60 +18,7 @@
             "clave": "C.54yt78",
             "id_rol": 2
         }
-    ],
-    "ramos": [
-        {
-            "id": 1,
-            "sigla": "PGY4237",
-            "nombre": "Diseño de prototipos"
-        },
-        {
-            "id": 2,
-            "sigla": "PGY4121",
-            "nombre": "Programación de aplicaciones móviles"
-        }
-    ],
-    "seccion": [
-        {
-            "id": 1,
-            "sigla": "001D"
-        },
-        {
-            "id": 2,
-            "sigla": "002D"
-        }
-    ],
-    "asigsecci": [
-        {
-            "id": 1,
-            "id_ramo": 2,
-            "id_seccion": 1,
-            "id_profesor": 1
-        },
-        {
-            "id": 2,
-            "id_ramo": 1,
-            "id_seccion": 1,
-            "id_profesor": 1
-        }
-    ],
-    "listado": [
-        {
-            "id": 1,
-            "id_estudiante": 2,
-            "id_asigsecci": 1
-        },
-        {
-            "id": 2,
-            "id_estudiante": 3,
-            "id_asigsecci": 1
-        },
-        {
-            "id": 2,
-            "id_estudiante": 3,
-            "id_asigsecci": 2
-        }
-    ],
+    ], 
     "autos": [
         {
             "patente": "FF-HH-22",
