@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Publicar rutas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+
+
+  <app-banner src="banner.png"></app-banner>
+
+
+  <!-- <form [formGroup]="formBuscar"> -->
+  <ion-card>
+    <ion-grid>
+
+      <ion-row>
+        <ion-col>
+          <ion-searchbar search-icon="location-outline" placeholder="Lugar de partida"
+            [(ngModel)]="interpolacion.origen"></ion-searchbar>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-searchbar search-icon="location-outline" placeholder="Lugar de destino"
+            [(ngModel)]="interpolacion.destino"></ion-searchbar>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+
+        <ion-col size="3">
+          <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime id="datetime" presentation="date" locale="es-ES" [showDefaultButtons]="true"
+                doneText="Confirmar" cancelText="Cancelar" [(ngModel)]="interpolacion.fecha">
+              </ion-datetime>
+              <!-- <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button> -->
+            </ng-template>
+          </ion-modal>
+        </ion-col>
+
+        <ion-col size="9">
+          <ion-item>
+            <ion-icon name="people-outline"></ion-icon>
+            <ion-input type="number" placeholder="   Asientos disponibles" max="6" min="1"
+              [(ngModel)]="interpolacion.pasajeros"></ion-input>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+
+          <ion-button color="primary" expand="block" (click)="publicarRutas()">Publicar</ion-button>
+
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  </ion-card>
+
+
+
+
+
+</ion-content>

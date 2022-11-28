@@ -1,0 +1,7 @@
+{
+  "name": "MatchCar",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

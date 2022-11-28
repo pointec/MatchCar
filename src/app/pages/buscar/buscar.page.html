@@ -1,0 +1,82 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="primary">Busca rutas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- <form [formGroup]="formBuscar"> -->
+  <ion-card>
+    <ion-grid>
+
+      <ion-row>
+        <ion-col>
+          <ion-searchbar search-icon="location-outline" placeholder="Donde me recogen"
+            [(ngModel)]="interpolacion.origen"></ion-searchbar>
+        </ion-col>
+      </ion-row>
+
+    
+      <ion-row>
+        <ion-col>
+          <ion-searchbar search-icon="location-outline" placeholder="A donde voy" [(ngModel)]="interpolacion.destino">
+          </ion-searchbar>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+
+        <ion-col size="3">
+
+          <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime id="datetime" presentation="date" locale="es-ES" [showDefaultButtons]="true"
+                doneText="Confirmar" cancelText="Cancelar" [(ngModel)]="miVariableHora" (ionChange)="cambioFecha()">
+              </ion-datetime>
+              <!-- <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button> -->
+            </ng-template>
+          </ion-modal>
+
+        </ion-col>
+
+        <ion-col size="9">
+          <ion-item>
+            <ion-icon name="people-outline" color="primary"></ion-icon>
+            <ion-input type="number" placeholder=" Cantidad pasajeros" max="6" min="1"
+              [(ngModel)]="interpolacion.pasajeros"></ion-input>
+          </ion-item>
+        </ion-col>
+
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+
+          <ion-button color="primary" expand="block" (click)="buscarRutas()">Buscar</ion-button>
+
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  </ion-card>
+
+  <!-- </form> -->
+
+  <ion-grid class="historial">
+
+    <h4>Historial de búsqueda</h4>
+
+    <ion-item button detail="true" *ngFor="let historial of historial" (click)="buscarRutas()">
+      <ion-icon name="map-outline" slot="start" color="primary"></ion-icon>
+      <ion-label class="ion-text-wrap">
+        <h3>{{ historial.origen }} | {{ historial.destino}} <ion-icon name="people-outline"></ion-icon> {{
+          historial.pasajeros}}</h3>
+      </ion-label>
+    </ion-item>
+  </ion-grid>
+
+
+</ion-content>
