@@ -21,9 +21,9 @@ interpolacion={
   asientos:"",
   estado:1,
   tipoUsuario:"Conductor",
-  precio:0
+  precio:""
 }
-
+id: any
 
 async publicarRutas() {
   const alert = await this.alertController.create({
@@ -38,7 +38,9 @@ async publicarRutas() {
         text: 'Confirmar',
         role: 'confirm',
         handler: () => {
-          this.DbService.CrearViaje(this.interpolacion.origen, this.interpolacion.destino, this.interpolacion.asientos, this.interpolacion.estado, this.interpolacion.tipoUsuario, this.interpolacion.precio);
+          this.id = localStorage.getItem("id");
+          this.DbService.CrearViaje(this.interpolacion.origen, this.interpolacion.destino, this.interpolacion.asientos, this.interpolacion.estado, this.interpolacion.tipoUsuario, this.interpolacion.precio, this.id,'fdf','fdf');
+          console.log("Viaje ingresado con id: " + this.id )
           this.DbService.presentToast("Ruta registrada");
           this.router.navigate(['/menutabs/viajes']);
         },

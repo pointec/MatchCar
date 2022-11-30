@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common';
+
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 
@@ -11,7 +11,6 @@ import { NavigationExtras, Router } from '@angular/router';
 })
 export class BuscarPage implements OnInit {
 
-  miVariableHora: any;
   
 
   constructor(private router:Router) { }
@@ -37,23 +36,15 @@ export class BuscarPage implements OnInit {
 interpolacion={
   origen:"",
   destino:"",
-  fecha:"",
   pasajeros:""
 }
 
 buscarRutas(){
 
-  let navigationExtras: NavigationExtras = {
-    state:{
-      interpolacion: this.interpolacion
-    }
-  };
-  this.router.navigate(['/buscar-viajes'],navigationExtras);
+  this.router.navigate(['/buscar-viajes']);
 }
 
-cambioFecha( ){
-  console.log(new Date(this.miVariableHora).toLocaleDateString('es-ES'))
-}
+
 
   ngOnInit() {
   }

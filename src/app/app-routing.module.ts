@@ -41,9 +41,15 @@ const routes: Routes = [
     loadChildren: () => import('./pages/publicar-rutas/publicar-rutas.module').then( m => m.PublicarRutasPageModule)
   },
   {
+    path: 'autos',
+    loadChildren: () => import('./pages/autos/autos.module').then( m => m.AutosPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/error/error.module').then( m => m.ErrorPageModule)
   },
+
+
  
 ];
 

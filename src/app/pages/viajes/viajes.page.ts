@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { parse } from 'path';
 import { DbService } from 'src/app/services/db.service';
 
 @Component({
@@ -9,8 +10,14 @@ import { DbService } from 'src/app/services/db.service';
 export class ViajesPage implements OnInit {
   users: any;
 
+
   
-  constructor(private DbService:DbService ) { }
+  constructor(private DbService:DbService
+   
+    ) { 
+
+  
+    }
 
   // rutas= [
   //   { 
@@ -53,16 +60,24 @@ export class ViajesPage implements OnInit {
   //     "pasajero":"Daniela Carvajal"
   //   }]
 
-MostrarViajes(){
-  this.DbService.ObtenerViajes().then((res: any)=>{
-    console.log(res);
-    this.users=res;
-    console.log(this.users);
-  },(error)=> {console.log(error);
-  })
-}
+  MostrarViajes(){
+    this.DbService.ObtenerViajes().then((res: any)=>{
+      console.log("Mostramos viaje" + JSON.stringify(res[0]));
+      this.users=res;
+      
+    },(error)=> {console.log(error);
+    })
+  }
+
+
+
+
+
+
+
 ionViewDidEnter(){
   this.MostrarViajes();
+  
 }
 
 

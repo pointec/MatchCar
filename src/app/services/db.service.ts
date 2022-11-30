@@ -13,9 +13,12 @@ export class DbService {
   private isDbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuarios(id integer(2) PRIMARY KEY NOT NULL, nombre VARCHAR(50) NOT NULL, clave VARCHAR(50) NOT NULL);";
-  tablaViajes: string = "CREATE TABLE IF NOT EXISTS viajes(id integer PRIMARY KEY autoincrement, origen VARCHAR(50) NOT NULL, destino VARCHAR(50) NOT NULL, asientos integer(2), estado integer(2), tipoUsuario VARCHAR(50), precio integer(50));";
+  tablaViajes: string = "CREATE TABLE IF NOT EXISTS viajes(id integer PRIMARY KEY autoincrement, origen VARCHAR(50) NOT NULL, destino VARCHAR(50) NOT NULL, asientos integer(2), estado integer(2), tipoUsuario VARCHAR(50), precio VARCHAR(10), idUsuario integer, patente VARCHAR(50),marca VARCHAR(50));";
+  tablaAutos: string = "CREATE TABLE IF NOT EXISTS autos(patente VARCHAR(50) PRIMARY KEY NOT NULL, idUsuario integer(2) NOT NULL, marca VARCHAR(50), activo integer(2));";
+  registroAuto: string = "INSERT or IGNORE INTO autos(patente, idUsuario, marca, activo) VALUES (?,?,?,?);";
   registro: string = "INSERT or IGNORE INTO usuarios(id, nombre, clave) VALUES (?,?,?);";
   users: any;
+  
 
   constructor(public toastController: ToastController,
     private platform: Platform,
@@ -23,17 +26,40 @@ export class DbService {
     private json: JsonService
 
   ) {
+    //Creamos base de datos
     this.crearBD();
 
+    //insertamos los datos usuarios de la API JSON a la BD SQLite
     this.json.getData().subscribe(async (res) => {
       this.users = res;
       for (const user of res) {
         await this.database.executeSql(this.registro, [user.id, user.nombre, user.clave]);
-        console.log("insertando: " + user)
-        // this.presentToast("Se inserto 1 usuario");
-        // console.log("Se inserto" + user + " del JSON");
+        console.log("insertando usuarios  al BD: " + user + " | " + res)
+      
       }
-      // console.log(res);
+    
+    }, (error) => {
+      console.log(error);
+    });
+
+    //Insertamos los datos autos de la API JSON a la BD SQLite
+    this.json.getAuto().subscribe(async (res) => {
+      this.users = res;
+      
+      let activo=0;
+      for (const user of res) {
+        if(activo==0){
+          await this.database.executeSql(this.registroAuto, [ user.patente, user.id_usuario, user.marca,1]);
+        }
+        else{
+          await this.database.executeSql(this.registroAuto, [ user.patente, user.id_usuario, user.marca,0]);
+        }
+        activo=1;
+        
+        console.log("insertando autos a la BD: " + user + " | " + res)
+    
+      }
+      
     }, (error) => {
       console.log(error);
     });
@@ -41,40 +67,44 @@ export class DbService {
   }
 
 
+  //funcion que crea la base de datos
   crearBD() {
     this.platform.ready().then(() => {
       this.sqlite.create({
-        name: 'serviexpress.db',
+        name: 'MatchCar.db',
         location: 'default'
 
       }).then((db: SQLiteObject) => {
         this.database = db;
-        this.presentToast("BD Creada");
+
         console.log("la base fue creada");
+        //Creamos tablas
         this.crearTablas();
       }).catch((error) => { console.log(error) });
     })
   }
 
 
-
+  //Funcion que crea las tablas en la BD
   async crearTablas() {
     try {
       await this.database.executeSql(this.tablaUsuario, []);
-      console.log("tabla creada")
-      this.presentToast("Tabla Creada");
-
-      await this.database.executeSql(this.tablaViajes, []);
+      console.log("tabla usuarios creada")
       
+      await this.database.executeSql(this.tablaViajes, []);
+      console.log("tabla viajes creada")
+      
+      await this.database.executeSql(this.tablaAutos, []);
+      console.log("tabla autos creada")
 
       this.isDbReady.next(true);
     } catch (e) { console.log(e); }
   }
 
-  CrearViaje(origen: string, destino: string, asientos: string, estado: number, tipoUsuario: string, precio:  number){
+  CrearViaje(origen: string, destino: string, asientos: string, estado: number, tipoUsuario: string, precio:  string, idUsuario: number, patente: string, marca:string){
     return new Promise ((resolve,reject)=>{
-      let sql ="INSERT or IGNORE INTO viajes(origen, destino, asientos,estado,tipoUsuario,precio) VALUES (?, ?, ?,?,?,?);";
-      this.database.executeSql(sql,[origen, destino, asientos, estado, tipoUsuario, precio]).then((data)=>{
+      let sql ="INSERT or IGNORE INTO viajes(origen, destino, asientos,estado,tipoUsuario,precio, idUsuario, patente, marca) VALUES (?,?,?,?,?,?,?,?,?);";
+      this.database.executeSql(sql,[origen, destino, asientos, estado, tipoUsuario, precio, idUsuario, patente, marca]).then((data)=>{
         resolve(data);
       },(error)=>{reject(error);
       });
@@ -135,6 +165,8 @@ export class DbService {
               asientos: res.rows.item(i).asientos,
               estado: res.rows.item(i).estado,
               tipoUsuario: res.rows.item(i).tipoUsuario,
+              precio: res.rows.item(i).precio,
+              idUsuario: res.rows.item(i).idUsuario,
             });
             
           }
@@ -144,6 +176,27 @@ export class DbService {
         reject(error);
       })
     })
+  }
+
+  ObtenerAutos(idUsuario: number){
+    return new Promise ((resolve,reject) =>{
+      this.database.executeSql('SELECT * FROM autos WHERE idUsuario=?', [idUsuario]).then(res => {
+        let arrayAuto = [];
+        if (res.rows.length > 0) {
+          for (var i = 0; i < res.rows.length; i++) {
+            arrayAuto.push({
+              id: res.rows.item(i).id,
+              patente: res.rows.item(i).patente,
+              marca: res.rows.item(i).marca,
+            });
+          }
+        }
+        console.log("Imprimo objeto de autoObtenido: " + arrayAuto)
+        resolve(arrayAuto);
+      },(error)=>{reject(error);
+      })
+    })
+
   }
 
 

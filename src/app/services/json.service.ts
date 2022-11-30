@@ -25,5 +25,10 @@ export class JsonService {
 
   }
 
+  getAuto(): Observable<any>{
+    return this.httpclient.get(this.url+'/autos/').pipe(retry(3))
+
+  }
+
 
 }

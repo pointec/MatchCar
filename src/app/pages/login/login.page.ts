@@ -52,20 +52,19 @@ export class LoginPage implements OnInit {
 
   LoginUsuario() {
 
-    console.log(this.interpolacion.nombre)
-    this.dbservice.ObtenerUsuario(this.interpolacion.nombre).then((res2) => {
-      console.log(res2);
+      this.dbservice.ObtenerUsuario(this.interpolacion.nombre).then((res2) => {
       this.user = res2;
-      console.log(this.user[0].nombre)
-      console.log(this.user[0].clave)
+      
 
       if (this.user.length == 0) {
         this.presentToast("Usuario no encontrado");
       } else if (this.user.length == 1 && this.user[0].nombre == this.interpolacion.nombre && this.user[0].clave == this.interpolacion.clave) {
+        localStorage.setItem('id',JSON.stringify(this.user[0].id))
+        localStorage.setItem('user',JSON.stringify(this.user[0].nombre))
 
         this.route.navigate(["/menutabs"])
         //   this.database.UpdateActivo(this.interpolacion.email,this.active)
-       // localStorage.setItem('nombre', JSON.stringify(this.interpolacion.nombre))
+        
       } else {
         this.presentToast("Usuario o contraseña incorrecta")
       }
