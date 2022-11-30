@@ -101,7 +101,7 @@ export class DbService {
     } catch (e) { console.log(e); }
   }
 
-  CrearViaje(origen: string, destino: string, asientos: string, estado: number, tipoUsuario: string, precio:  string, idUsuario: number, patente: string, marca:string){
+  CrearViaje(origen: string, destino: string, asientos: string, estado: number, tipoUsuario: string, precio:  string, idUsuario: number, patente: any, marca:any){
     return new Promise ((resolve,reject)=>{
       let sql ="INSERT or IGNORE INTO viajes(origen, destino, asientos,estado,tipoUsuario,precio, idUsuario, patente, marca) VALUES (?,?,?,?,?,?,?,?,?);";
       this.database.executeSql(sql,[origen, destino, asientos, estado, tipoUsuario, precio, idUsuario, patente, marca]).then((data)=>{

@@ -67,7 +67,7 @@ export class LoginPage implements OnInit {
         this.id = localStorage.getItem('id');
         
     //consultamos el auto del usuario para asignarlo a localstorage
-    this.DbService.ObtenerAuto(parseInt(this.id)).then((res: any)=>{
+    this.DbService.ObtenerAuto(parseInt(this.id)).then((res)=>{
       this.auto= res;
       localStorage.setItem('patente',JSON.stringify(this.auto[0].patente))
       localStorage.setItem('marca',JSON.stringify(this.auto[0].marca)) 

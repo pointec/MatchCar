@@ -8,7 +8,8 @@ import { DbService } from 'src/app/services/db.service';
   styleUrls: ['./viajes.page.scss'],
 })
 export class ViajesPage implements OnInit {
-  users: any;
+
+  rutas: any;
 
 
   
@@ -63,7 +64,7 @@ export class ViajesPage implements OnInit {
   MostrarViajes(){
     this.DbService.ObtenerViajes().then((res: any)=>{
       console.log("Mostramos viaje" + JSON.stringify(res[0]));
-      this.users=res;
+      this.rutas=res;
       
     },(error)=> {console.log(error);
     })
