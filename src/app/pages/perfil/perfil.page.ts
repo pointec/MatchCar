@@ -12,7 +12,9 @@ import { DbService } from 'src/app/services/db.service';
 })
 export class PerfilPage implements OnInit {
   id:any
-  auto: any;
+  autos: any;
+  patente: any;
+  marca: any;
 
   constructor(private router:Router,
     private DbService:DbService) { }
@@ -38,14 +40,16 @@ export class PerfilPage implements OnInit {
   
     this.DbService.ObtenerAutos(parseInt(this.id)).then((res: any)=>{
       console.log("Imprimo res: " + res)
-      this.auto= res;
-      console.log("Imprimo auto de obtieneAuto: " + this.auto)
+      this.autos= res;
+      console.log("Imprimo auto de obtieneAuto: " + this.autos)
       
     },(error)=> {console.log(error);
     })
   }
 
   ionViewDidEnter(){
+    this.patente = localStorage.getItem('patente');
+    this.marca = localStorage.getItem('marca');
     this.ObtieneAuto();
   }
 

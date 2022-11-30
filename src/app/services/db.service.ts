@@ -167,6 +167,8 @@ export class DbService {
               tipoUsuario: res.rows.item(i).tipoUsuario,
               precio: res.rows.item(i).precio,
               idUsuario: res.rows.item(i).idUsuario,
+              marca: res.rows.item(i).marca,
+              patente: res.rows.item(i).patente,
             });
             
           }
@@ -188,17 +190,39 @@ export class DbService {
               id: res.rows.item(i).id,
               patente: res.rows.item(i).patente,
               marca: res.rows.item(i).marca,
+              activo: res.rows.item(i).activo,
             });
           }
         }
         console.log("Imprimo objeto de autoObtenido: " + arrayAuto)
         resolve(arrayAuto);
-      },(error)=>{reject(error);
+      }, (error) => {
+        reject(error);
       })
     })
-
   }
 
+  ObtenerAuto(idUsuario: number){
+    return new Promise ((resolve,reject) =>{
+      this.database.executeSql('SELECT * FROM autos WHERE idUsuario=? and activo=1', [idUsuario]).then(res => {
+        let arrayAuto = [];
+        if (res.rows.length > 0) {
+          for (var i = 0; i < res.rows.length; i++) {
+            arrayAuto.push({
+              id: res.rows.item(i).id,
+              patente: res.rows.item(i).patente,
+              marca: res.rows.item(i).marca,
+              activo: res.rows.item(i).activo,
+            });
+          }
+        }
+        console.log("Imprimo auto activo de usaurio: " + arrayAuto)
+        resolve(arrayAuto);
+      }, (error) => {
+        reject(error);
+      })
+    })
+  }
 
   async presentToast(mensaje: string) {
     const toast = await this.toastController.create({

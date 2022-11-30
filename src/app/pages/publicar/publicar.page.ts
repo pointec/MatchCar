@@ -9,6 +9,8 @@ import { DbService } from 'src/app/services/db.service';
   styleUrls: ['./publicar.page.scss'],
 })
 export class PublicarPage implements OnInit {
+  patente: any;
+  marca: any;
   //result: string;
 
   constructor(private router:Router, private alertController: AlertController,
@@ -39,7 +41,7 @@ async publicarRutas() {
         role: 'confirm',
         handler: () => {
           this.id = localStorage.getItem("id");
-          this.DbService.CrearViaje(this.interpolacion.origen, this.interpolacion.destino, this.interpolacion.asientos, this.interpolacion.estado, this.interpolacion.tipoUsuario, this.interpolacion.precio, this.id,'fdf','fdf');
+          this.DbService.CrearViaje(this.interpolacion.origen, this.interpolacion.destino, this.interpolacion.asientos, this.interpolacion.estado, this.interpolacion.tipoUsuario, this.interpolacion.precio, this.id,this.patente, this.marca);
           console.log("Viaje ingresado con id: " + this.id )
           this.DbService.presentToast("Ruta registrada");
           this.router.navigate(['/menutabs/viajes']);
@@ -54,6 +56,8 @@ async publicarRutas() {
 }
 
   ngOnInit() {
+    this.patente = localStorage.getItem('patente');
+    this.marca = localStorage.getItem('marca');
   }
 
 }

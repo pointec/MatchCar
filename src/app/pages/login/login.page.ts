@@ -21,6 +21,8 @@ export class LoginPage implements OnInit {
     clave: ""
 
   }
+  id: any;
+  auto: any;
 
 
   constructor(
@@ -28,7 +30,7 @@ export class LoginPage implements OnInit {
     private toastController: ToastController,
     private route: Router,
     private json: JsonService,
-    private dbservice: DbService
+    private DbService: DbService
 
   ) {
     this.formLogin = this.fb.group({
@@ -52,7 +54,7 @@ export class LoginPage implements OnInit {
 
   LoginUsuario() {
 
-      this.dbservice.ObtenerUsuario(this.interpolacion.nombre).then((res2) => {
+      this.DbService.ObtenerUsuario(this.interpolacion.nombre).then((res2) => {
       this.user = res2;
       
 
@@ -61,6 +63,18 @@ export class LoginPage implements OnInit {
       } else if (this.user.length == 1 && this.user[0].nombre == this.interpolacion.nombre && this.user[0].clave == this.interpolacion.clave) {
         localStorage.setItem('id',JSON.stringify(this.user[0].id))
         localStorage.setItem('user',JSON.stringify(this.user[0].nombre))
+
+        this.id = localStorage.getItem('id');
+        
+    //consultamos el auto del usuario para asignarlo a localstorage
+    this.DbService.ObtenerAuto(parseInt(this.id)).then((res: any)=>{
+      this.auto= res;
+      localStorage.setItem('patente',JSON.stringify(this.auto[0].patente))
+      localStorage.setItem('marca',JSON.stringify(this.auto[0].marca)) 
+      
+    },(error)=> {console.log(error);
+    })
+    
 
         this.route.navigate(["/menutabs"])
         //   this.database.UpdateActivo(this.interpolacion.email,this.active)
