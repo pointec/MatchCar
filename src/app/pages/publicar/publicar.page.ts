@@ -25,7 +25,8 @@ interpolacion={
   tipoUsuario:"Conductor",
   precio:""
 }
-id: any
+id: any;
+user: any;
 
 async publicarRutas() {
   const alert = await this.alertController.create({
@@ -41,7 +42,8 @@ async publicarRutas() {
         role: 'confirm',
         handler: () => {
           this.id = localStorage.getItem("id");
-          this.DbService.CrearViaje(this.interpolacion.origen, this.interpolacion.destino, this.interpolacion.asientos, this.interpolacion.estado, this.interpolacion.tipoUsuario, this.interpolacion.precio, this.id,this.patente, this.marca);
+          this.user = localStorage.getItem("user");
+          this.DbService.CrearViaje(this.interpolacion.origen, this.interpolacion.destino, this.interpolacion.asientos, this.interpolacion.estado, this.interpolacion.tipoUsuario, this.interpolacion.precio, this.id,this.patente, this.marca, this.user);
           console.log("Viaje ingresado con id: " + this.id )
           this.DbService.presentToast("Ruta registrada");
           this.router.navigate(['/menutabs/viajes']);
@@ -56,8 +58,8 @@ async publicarRutas() {
 }
 
   ngOnInit() {
-    this.patente = localStorage.getItem('patente');
-    this.marca = localStorage.getItem('marca');
+    this.patente = localStorage.getItem("patente");
+    this.marca = localStorage.getItem("marca");
   }
 
 }

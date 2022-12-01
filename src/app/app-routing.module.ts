@@ -32,10 +32,7 @@ const routes: Routes = [
     path: 'viajes',
     loadChildren: () => import('./pages/viajes/viajes.module').then( m => m.ViajesPageModule)
   },
-  {
-    path: 'buscar-viajes',
-    loadChildren: () => import('./pages/buscar-viajes/buscar-viajes.module').then( m => m.BuscarViajesPageModule)
-  },
+ 
   {
     path: 'publicar-rutas',
     loadChildren: () => import('./pages/publicar-rutas/publicar-rutas.module').then( m => m.PublicarRutasPageModule)

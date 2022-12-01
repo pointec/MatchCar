@@ -48,9 +48,62 @@
     </ion-grid>
   </ion-card>
 
-  <!-- </form> -->
+  
 
-  <ion-grid class="historial">
+    
+    <ion-row>
+    Criterio de búsqueda:
+    </ion-row>
+
+    <ion-row>
+    
+    <ion-item  detail="true" >
+      <ion-icon name="search-outline" slot="start"></ion-icon>
+      <ion-label class="ion-text-wrap">
+        <p>{{interpolacion.origen}} | {{interpolacion.destino}} <ion-icon name="people-outline"></ion-icon> {{ interpolacion.pasajeros }} </p>
+        </ion-label>
+    </ion-item>
+  </ion-row>
+
+  <ion-row>
+    <h4>Resultados encontrados </h4>
+  </ion-row>
+  
+<p *ngIf="!rutas">No se han encontrado rutas</p>
+<ng-container *ngIf="rutas">
+  <ion-row  *ngFor="let ruta of rutas">
+  
+    <ion-accordion-group>
+      
+      <ion-accordion value="first">
+        <ion-item slot="header" color="light">
+          <ion-avatar slot="start">
+            <img alt="Ver perfil" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+          </ion-avatar>
+          <ion-label class="ion-text-wrap">{{ ruta.precio }} | {{ ruta.origen }} | {{ ruta.destino}}</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <h2>Conductor: {{ ruta.usuario }}</h2>
+          <h2>Marca: {{ ruta.marca }}</h2>
+          <h2>Patente: {{ ruta.patente }}</h2>
+          <h2>Origen: {{ ruta.origen }}</h2>
+          <h2>Destino: {{ ruta.destino }}</h2>
+          <h2>Asientos disponibles: {{ ruta.asientos }}</h2>
+          <h2>Precio: {{ ruta.precio }}</h2>
+          <ion-button fill="outline" (click)="confirmarRuta(ruta.origen,ruta.destino,ruta.asientos,1,'Pasajero',ruta.precio,ruta.idUsuario,ruta.patente,ruta.marca,ruta.nombre)">Confirmar</ion-button>
+        </div>
+      </ion-accordion>
+    
+    
+    </ion-accordion-group>
+  </ion-row> 
+</ng-container>
+
+
+
+
+
+  <!-- <ion-grid class="historial">
 
     <h4>Historial de búsqueda</h4>
 
@@ -61,7 +114,7 @@
           historial.pasajeros}}</h3>
       </ion-label>
     </ion-item>
-  </ion-grid>
+  </ion-grid> -->
 
 
 </ion-content>

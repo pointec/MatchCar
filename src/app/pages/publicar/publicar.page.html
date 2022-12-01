@@ -31,8 +31,8 @@
 
       <ion-row>
 
-        
-        <ion-col >
+
+        <ion-col>
           <ion-item>
             <ion-icon name="people-outline"></ion-icon>
             <ion-input type="number" placeholder="   Asientos disponibles" max="6" min="1"
@@ -44,12 +44,10 @@
 
       <ion-row>
 
-        
-        <ion-col >
+
+        <ion-col>
           <ion-item>
-            <ion-icon name="people-outline"></ion-icon>
-            <ion-input type="number" placeholder="Precio" 
-              [(ngModel)]="interpolacion.precio"></ion-input>
+            <ion-input type="number" placeholder="Precio" [(ngModel)]="interpolacion.precio"></ion-input>
           </ion-item>
         </ion-col>
 
@@ -57,14 +55,13 @@
 
       <ion-row>
         <ion-col>
-          <ion-input type="text" placeholder="" value="{{ this.marca }}" disabled="true"></ion-input>
-          marca 
+          <ion-input color="primary" type="text" placeholder="" value="Marca: {{marca}}" disabled="true"></ion-input>
         </ion-col>
       </ion-row>
 
       <ion-row>
         <ion-col>
-          <ion-input type="text" value="{{ this.patente }}" disabled="true"></ion-input>
+          <ion-input color="primary" type="text" value="Patente: {{patente}}" disabled="true"></ion-input>
         </ion-col>
       </ion-row>
 

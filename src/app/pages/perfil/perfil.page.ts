@@ -15,7 +15,7 @@ export class PerfilPage implements OnInit {
   autos: any;
   patente: any;
   marca: any;
-
+  user: any;
   constructor(private router:Router,
     private DbService:DbService) { }
 
@@ -50,6 +50,7 @@ export class PerfilPage implements OnInit {
   ionViewDidEnter(){
     this.patente = localStorage.getItem('patente');
     this.marca = localStorage.getItem('marca');
+    this.user = localStorage.getItem("user");
     this.ObtieneAuto();
   }
 

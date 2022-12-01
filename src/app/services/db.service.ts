@@ -13,7 +13,7 @@ export class DbService {
   private isDbReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuarios(id integer(2) PRIMARY KEY NOT NULL, nombre VARCHAR(50) NOT NULL, clave VARCHAR(50) NOT NULL);";
-  tablaViajes: string = "CREATE TABLE IF NOT EXISTS viajes(id integer PRIMARY KEY autoincrement, origen VARCHAR(50) NOT NULL, destino VARCHAR(50) NOT NULL, asientos integer(2), estado integer(2), tipoUsuario VARCHAR(50), precio VARCHAR(10), idUsuario integer, patente VARCHAR(50),marca VARCHAR(50));";
+  tablaViajes: string = "CREATE TABLE IF NOT EXISTS viajes(id integer PRIMARY KEY autoincrement, origen VARCHAR(50) NOT NULL, destino VARCHAR(50) NOT NULL, asientos integer(2), estado integer(2), tipoUsuario VARCHAR(50), precio VARCHAR(10), idUsuario integer, patente VARCHAR(50),marca VARCHAR(50),nombre VARCHAR(50));";
   tablaAutos: string = "CREATE TABLE IF NOT EXISTS autos(patente VARCHAR(50) PRIMARY KEY NOT NULL, idUsuario integer(2) NOT NULL, marca VARCHAR(50), activo integer(2));";
   registroAuto: string = "INSERT or IGNORE INTO autos(patente, idUsuario, marca, activo) VALUES (?,?,?,?);";
   registro: string = "INSERT or IGNORE INTO usuarios(id, nombre, clave) VALUES (?,?,?);";
@@ -101,10 +101,10 @@ export class DbService {
     } catch (e) { console.log(e); }
   }
 
-  CrearViaje(origen: string, destino: string, asientos: string, estado: number, tipoUsuario: string, precio:  string, idUsuario: number, patente: any, marca:any){
+  CrearViaje(origen: string, destino: string, asientos: string, estado: number, tipoUsuario: string, precio:  string, idUsuario: number, patente: any, marca:any, nombre:any){
     return new Promise ((resolve,reject)=>{
-      let sql ="INSERT or IGNORE INTO viajes(origen, destino, asientos,estado,tipoUsuario,precio, idUsuario, patente, marca) VALUES (?,?,?,?,?,?,?,?,?);";
-      this.database.executeSql(sql,[origen, destino, asientos, estado, tipoUsuario, precio, idUsuario, patente, marca]).then((data)=>{
+      let sql ="INSERT or IGNORE INTO viajes(origen, destino, asientos,estado,tipoUsuario,precio, idUsuario, patente, marca,nombre) VALUES (?,?,?,?,?,?,?,?,?,?);";
+      this.database.executeSql(sql,[origen, destino, asientos, estado, tipoUsuario, precio, idUsuario, patente, marca, nombre]).then((data)=>{
         resolve(data);
       },(error)=>{reject(error);
       });
@@ -180,6 +180,37 @@ export class DbService {
     })
   }
 
+  BuscarViajes(origen: string, destino: string, pasajeros: string) {
+    return new Promise((resolve, reject) => {
+      if(origen!=="" && destino!==""){
+        
+      }
+      this.database.executeSql('SELECT * FROM viajes where tipoUsuario="Conductor" and estado=1 and (origen=? or destino=? or asientos=?)', [origen, destino, pasajeros]).then(res => {
+        let arrayViajes = [];
+        if (res.rows.length > 0) {
+          for (var i = 0; i < res.rows.length; i++) {
+            arrayViajes.push({
+              id: res.rows.item(i).id,
+              origen: res.rows.item(i).origen,
+              destino: res.rows.item(i).destino,
+              asientos: res.rows.item(i).asientos,
+              estado: res.rows.item(i).estado,
+              tipoUsuario: res.rows.item(i).tipoUsuario,
+              precio: res.rows.item(i).precio,
+              idUsuario: res.rows.item(i).idUsuario,
+              marca: res.rows.item(i).marca,
+              patente: res.rows.item(i).patente,
+            });
+            
+          }
+        }
+        resolve(arrayViajes);
+      }, (error) => {
+        reject(error);
+      })
+    })
+  }
+
   ObtenerAutos(idUsuario: number){
     return new Promise ((resolve,reject) =>{
       this.database.executeSql('SELECT * FROM autos WHERE idUsuario=?', [idUsuario]).then(res => {
@@ -223,6 +254,8 @@ export class DbService {
       })
     })
   }
+
+
 
   async presentToast(mensaje: string) {
     const toast = await this.toastController.create({

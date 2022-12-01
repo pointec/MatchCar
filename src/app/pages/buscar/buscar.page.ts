@@ -1,7 +1,8 @@
 
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
-
+import { Router } from '@angular/router';
+import { DbService } from 'src/app/services/db.service';
+import { AlertController } from '@ionic/angular';
 
 
 @Component({
@@ -10,27 +11,17 @@ import { NavigationExtras, Router } from '@angular/router';
   styleUrls: ['./buscar.page.scss'],
 })
 export class BuscarPage implements OnInit {
+  rutas: any;
+  user: any;
+  id: any;
 
   
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,private DbService2:DbService,
+    private alertController: AlertController,
+    ) { }
 
-  historial= [
-    {
-      "origen": "Las Petunias 3580",
-      "destino": "Duoc Plaza Norte", 
-      "pasajeros": 2
-    },
-    {
-      "origen": "Duoc Plaza Norte",
-      "destino": "Santa Filomena 145", 
-      "pasajeros": 1
-    },
-    {
-      "origen": "Independencia 1433",
-      "destino": "Duoc Plaza Norte", 
-      "pasajeros": 1
-    }]
+ 
   
     //Interpolacion, envio de objeto
 interpolacion={
@@ -40,13 +31,50 @@ interpolacion={
 }
 
 buscarRutas(){
-
-  this.router.navigate(['/buscar-viajes']);
+  
+  this.DbService2.BuscarViajes(this.interpolacion.origen, this.interpolacion.destino, this.interpolacion.pasajeros).then((res)=>{
+    this.rutas= res;
+    
+  },(error)=> {console.log(error);
+  })
+  this.user=localStorage.getItem('user')  
+  
 }
 
 
 
+async confirmarRuta(origen: string, destino: string, asientos: string, estado: number, tipoUsuario: string, precio:  string, idUsuario: number, patente: any, marca:any, nombre:any) {
+  const alert = await this.alertController.create({
+    header: '¿Quieres confirmar la ruta hacia ' + destino,
+    buttons: [
+      {
+        text: 'Cancelar',
+        role: 'cancel',
+      
+      },
+      {   
+        text: 'Confirmar',
+        role: 'confirm',
+        handler: () => {
+          this.id = localStorage.getItem("id");
+          this.user = localStorage.getItem("user");
+          this.DbService2.CrearViaje(origen,destino,asientos,estado,tipoUsuario,precio,this.id,patente,marca,nombre);
+          console.log("Viaje ingresado con id: " + this.id )
+          this.DbService2.presentToast("Ruta confirmada, revisa el detalle en la sección de viajes");
+          this.router.navigate(['/menutabs/viajes']);
+        },
+      },
+    ],
+  });
+
+  await alert.present();
+
+
+}
+
   ngOnInit() {
+
+
   }
 
 }

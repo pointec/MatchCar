@@ -62,16 +62,17 @@ export class LoginPage implements OnInit {
         this.presentToast("Usuario no encontrado");
       } else if (this.user.length == 1 && this.user[0].nombre == this.interpolacion.nombre && this.user[0].clave == this.interpolacion.clave) {
         localStorage.setItem('id',JSON.stringify(this.user[0].id))
-        localStorage.setItem('user',JSON.stringify(this.user[0].nombre))
+        localStorage.setItem('user',this.user[0].nombre)
 
         this.id = localStorage.getItem('id');
         
     //consultamos el auto del usuario para asignarlo a localstorage
     this.DbService.ObtenerAuto(parseInt(this.id)).then((res)=>{
       this.auto= res;
-      localStorage.setItem('patente',JSON.stringify(this.auto[0].patente))
-      localStorage.setItem('marca',JSON.stringify(this.auto[0].marca)) 
+      localStorage.setItem('patente',this.auto[0].patente)
+      localStorage.setItem('marca',this.auto[0].marca) 
       
+
     },(error)=> {console.log(error);
     })
     
@@ -90,7 +91,10 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
 
-
+    if(localStorage.getItem('user')){
+      this.route.navigate(["/menutabs"])
+    }
+  
 
 
   }
