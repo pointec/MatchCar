@@ -7,6 +7,37 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
+
+  <ion-card>
+    <ion-grid>
+
+      <ion-row>
+        <ion-col>
+          <ion-searchbar search-icon="car-sharp" placeholder="Ingrese la marcan"
+            [(ngModel)]="auto.marca"></ion-searchbar>
+        </ion-col>
+      </ion-row>
+
+    
+      <ion-row>
+        <ion-col>
+          <ion-searchbar  placeholder="Ingresa la patente Ej: RR-GG-48" [(ngModel)]="auto.patente">
+          </ion-searchbar>
+        </ion-col>
+      </ion-row>
+
+      
+
+      <ion-row>
+        <ion-col>
+
+          <ion-button color="primary" expand="block" (click)="agregarAuto()">Buscar</ion-button>
+
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  </ion-card>
 
 </ion-content>

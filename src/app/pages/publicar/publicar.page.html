@@ -55,15 +55,11 @@
 
       <ion-row>
         <ion-col>
-          <ion-input color="primary" type="text" placeholder="" value="Marca: {{marca}}" disabled="true"></ion-input>
+          <ion-input color="primary" type="text" placeholder="" value="Marca: {{this.marca + ' | ' + this.patente}}"
+            disabled="true"></ion-input>
         </ion-col>
       </ion-row>
 
-      <ion-row>
-        <ion-col>
-          <ion-input color="primary" type="text" value="Patente: {{patente}}" disabled="true"></ion-input>
-        </ion-col>
-      </ion-row>
 
       <ion-row>
         <ion-col>

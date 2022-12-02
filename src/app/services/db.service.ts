@@ -18,7 +18,7 @@ export class DbService {
   registroAuto: string = "INSERT or IGNORE INTO autos(patente, idUsuario, marca, activo) VALUES (?,?,?,?);";
   registro: string = "INSERT or IGNORE INTO usuarios(id, nombre, clave) VALUES (?,?,?);";
   users: any;
-  
+
 
   constructor(public toastController: ToastController,
     private platform: Platform,
@@ -35,9 +35,9 @@ export class DbService {
       for (const user of res) {
         await this.database.executeSql(this.registro, [user.id, user.nombre, user.clave]);
         console.log("insertando usuarios  al BD: " + user + " | " + res)
-      
+
       }
-    
+
     }, (error) => {
       console.log(error);
     });
@@ -45,21 +45,13 @@ export class DbService {
     //Insertamos los datos autos de la API JSON a la BD SQLite
     this.json.getAuto().subscribe(async (res) => {
       this.users = res;
-      
-      let activo=0;
+
       for (const user of res) {
-        if(activo==0){
-          await this.database.executeSql(this.registroAuto, [ user.patente, user.id_usuario, user.marca,1]);
-        }
-        else{
-          await this.database.executeSql(this.registroAuto, [ user.patente, user.id_usuario, user.marca,0]);
-        }
-        activo=1;
-        
+        await this.database.executeSql(this.registroAuto, [user.patente, user.id_usuario, user.marca, 0]);
         console.log("insertando autos a la BD: " + user + " | " + res)
-    
+
       }
-      
+
     }, (error) => {
       console.log(error);
     });
@@ -90,10 +82,10 @@ export class DbService {
     try {
       await this.database.executeSql(this.tablaUsuario, []);
       console.log("tabla usuarios creada")
-      
+
       await this.database.executeSql(this.tablaViajes, []);
       console.log("tabla viajes creada")
-      
+
       await this.database.executeSql(this.tablaAutos, []);
       console.log("tabla autos creada")
 
@@ -101,18 +93,19 @@ export class DbService {
     } catch (e) { console.log(e); }
   }
 
-  CrearViaje(origen: string, destino: string, asientos: string, estado: number, tipoUsuario: string, precio:  string, idUsuario: number, patente: any, marca:any, nombre:any){
-    return new Promise ((resolve,reject)=>{
-      let sql ="INSERT or IGNORE INTO viajes(origen, destino, asientos,estado,tipoUsuario,precio, idUsuario, patente, marca,nombre) VALUES (?,?,?,?,?,?,?,?,?,?);";
-      this.database.executeSql(sql,[origen, destino, asientos, estado, tipoUsuario, precio, idUsuario, patente, marca, nombre]).then((data)=>{
+  CrearViaje(origen: string, destino: string, asientos: string, estado: number, tipoUsuario: string, precio: string, idUsuario: number, patente: any, marca: any, nombre: string) {
+    return new Promise((resolve, reject) => {
+      let sql = "INSERT or IGNORE INTO viajes(origen, destino, asientos,estado,tipoUsuario,precio, idUsuario, patente, marca,nombre) VALUES (?,?,?,?,?,?,?,?,?,?);";
+      this.database.executeSql(sql, [origen, destino, asientos, estado, tipoUsuario, precio, idUsuario, patente, marca, nombre]).then((data) => {
         resolve(data);
-      },(error)=>{reject(error);
+      }, (error) => {
+        reject(error);
       });
     });
   }
 
-  ObtenerUsuario(nombre: string){
-    return new Promise ((resolve,reject) =>{
+  ObtenerUsuario(nombre: string) {
+    return new Promise((resolve, reject) => {
       this.database.executeSql('SELECT * FROM usuarios WHERE nombre=?', [nombre]).then(res => {
         let arrayUser = [];
         if (res.rows.length > 0) {
@@ -125,7 +118,8 @@ export class DbService {
           }
         }
         resolve(arrayUser);
-      },(error)=>{reject(error);
+      }, (error) => {
+        reject(error);
       })
     })
 
@@ -152,9 +146,9 @@ export class DbService {
     })
   }
 
-  ObtenerViajes() {
+  ObtenerViajes(id: number) {
     return new Promise((resolve, reject) => {
-      this.database.executeSql('SELECT * FROM viajes', []).then(res => {
+      this.database.executeSql('SELECT * FROM viajes where idUsuario=?', [id]).then(res => {
         let arrayUser = [];
         if (res.rows.length > 0) {
           for (var i = 0; i < res.rows.length; i++) {
@@ -169,8 +163,9 @@ export class DbService {
               idUsuario: res.rows.item(i).idUsuario,
               marca: res.rows.item(i).marca,
               patente: res.rows.item(i).patente,
+              nombre: res.rows.item(i).nombre,
             });
-            
+
           }
         }
         resolve(arrayUser);
@@ -180,12 +175,12 @@ export class DbService {
     })
   }
 
-  BuscarViajes(origen: string, destino: string, pasajeros: string) {
+  BuscarViajes(origen: string, destino: string, pasajeros: string, idUsuario: number) {
     return new Promise((resolve, reject) => {
-      if(origen!=="" && destino!==""){
-        
+      if (origen !== "" && destino !== "") {
+
       }
-      this.database.executeSql('SELECT * FROM viajes where tipoUsuario="Conductor" and estado=1 and (origen=? or destino=? or asientos=?)', [origen, destino, pasajeros]).then(res => {
+      this.database.executeSql('SELECT * FROM viajes where tipoUsuario="Conductor" and estado=1 and (origen=? or destino=? or asientos=?) and idUsuario<>?', [origen, destino, pasajeros, idUsuario]).then(res => {
         let arrayViajes = [];
         if (res.rows.length > 0) {
           for (var i = 0; i < res.rows.length; i++) {
@@ -200,8 +195,9 @@ export class DbService {
               idUsuario: res.rows.item(i).idUsuario,
               marca: res.rows.item(i).marca,
               patente: res.rows.item(i).patente,
+              nombre: res.rows.item(i).nombre,
             });
-            
+
           }
         }
         resolve(arrayViajes);
@@ -211,8 +207,8 @@ export class DbService {
     })
   }
 
-  ObtenerAutos(idUsuario: number){
-    return new Promise ((resolve,reject) =>{
+  ObtenerAutos(idUsuario: number) {
+    return new Promise((resolve, reject) => {
       this.database.executeSql('SELECT * FROM autos WHERE idUsuario=?', [idUsuario]).then(res => {
         let arrayAuto = [];
         if (res.rows.length > 0) {
@@ -223,9 +219,14 @@ export class DbService {
               marca: res.rows.item(i).marca,
               activo: res.rows.item(i).activo,
             });
+            if(res.rows.item(i).activo==1){
+              localStorage.setItem('marca', res.rows.item(i).marca)
+              localStorage.setItem('patente', res.rows.item(i).patente)
+            }
+
           }
         }
-        console.log("Imprimo objeto de autoObtenido: " + arrayAuto)
+        
         resolve(arrayAuto);
       }, (error) => {
         reject(error);
@@ -233,8 +234,8 @@ export class DbService {
     })
   }
 
-  ObtenerAuto(idUsuario: number){
-    return new Promise ((resolve,reject) =>{
+  ObtenerAuto(idUsuario: number) {
+    return new Promise((resolve, reject) => {
       this.database.executeSql('SELECT * FROM autos WHERE idUsuario=? and activo=1', [idUsuario]).then(res => {
         let arrayAuto = [];
         if (res.rows.length > 0) {
@@ -247,7 +248,7 @@ export class DbService {
             });
           }
         }
-        console.log("Imprimo auto activo de usaurio: " + arrayAuto)
+        
         resolve(arrayAuto);
       }, (error) => {
         reject(error);
@@ -256,11 +257,46 @@ export class DbService {
   }
 
 
+  activarAuto(auto: any){
+    return new Promise ((resolve,reject)=>{
+      let sql ="UPDATE autos SET activo=1 where  patente=?;";
+      console.log("prueba: " + auto[1]);
+     
+      this.database.executeSql(sql,[auto[1]]).then((data)=>{
+        resolve(data);
+      },(error)=>{reject(error);
+      });
+    });
+  }
+
+
+terminarViaje(idViaje: number){
+  return new Promise ((resolve,reject)=>{
+    let sql ="UPDATE viajes SET estado=0 where id=?;";
+    
+    this.database.executeSql(sql,[idViaje]).then((data)=>{
+      resolve(data);
+    },(error)=>{reject(error);
+    });
+    });
+  }
+
+agregaAuto(patente: string, idUsuario: number, marca: string) {
+  return new Promise((resolve, reject) => {
+    let sql = "INSERT or IGNORE INTO autos(patente, idUsuario, marca, 0) VALUES (?,?,?,?);";
+    this.database.executeSql(sql, [patente, idUsuario, marca]).then((data) => {
+      resolve(data);
+    }, (error) => {
+      reject(error);
+    });
+  });
+}
 
   async presentToast(mensaje: string) {
     const toast = await this.toastController.create({
       message: mensaje,
-      duration: 3000
+      duration: 2000,
+      color: 'success'
     });
     toast.present();
   }

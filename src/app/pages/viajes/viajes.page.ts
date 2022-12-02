@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { parse } from 'path';
 import { DbService } from 'src/app/services/db.service';
+import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-viajes',
@@ -10,64 +11,69 @@ import { DbService } from 'src/app/services/db.service';
 export class ViajesPage implements OnInit {
 
   rutas: any;
+  id: any;
 
 
-  
-  constructor(private DbService:DbService
-   
-    ) { 
+  constructor(private DbService: DbService,
+    private alertController: AlertController,
+    private router: Router
 
-  
-    }
+  ) {
 
-  // rutas= [
-  //   { 
-  //     "conductor":"Juan Muñoz",
-  //     "origen": "Las Petunias 3580",
-  //     "destino": "Duoc Plaza Norte", 
-  //     "asientos": 2,
-  //     "vehiculo":"Pegueot 8",
-  //     "precio":"$1.500",
-  //     "patente":"PSDH47",
-  //     "fecha":"10-11-2022",
-  //     "viajes":17,
-  //     "tipo_viaje":"Pasajero",
-  //     "pasajero":"Christian Caroca"
-  //   },
-  //   {
-  //     "conductor":"Esteban Caro",
-  //     "origen": "Duoc Plaza Norte",
-  //     "destino": "Santa Filomena 145", 
-  //     "asientos": 1,
-  //     "vehiculo":"Citroen C3",
-  //     "precio":"$1.800",
-  //     "patente":"OTPR87",
-  //     "fecha":"04-11-2022",
-  //     "viajes":15,
-  //     "tipo_viaje":"Conductor",
-  //     "pasajero":"Luis Fuentes"
-  //   },
-  //   {
-  //     "conductor":"Daniela Medina",
-  //     "origen": "Independencia 1433",
-  //     "destino": "Duoc Plaza Norte", 
-  //     "asientos": 1,
-  //     "vehiculo":"Chevrolet Sail",
-  //     "precio":"$1.000",
-  //     "patente":"PRTD11",
-  //     "fecha":"03-11-2022",
-  //     "viajes":7,
-  //     "tipo_viaje":"Pasajero",
-  //     "pasajero":"Daniela Carvajal"
-  //   }]
 
-  MostrarViajes(){
-    this.DbService.ObtenerViajes().then((res: any)=>{
+  }
+  async finalizarViaje(idViaje: number) {
+
+
+    const alert = await this.alertController.create({
+      header: '¿Se realizó el viaje?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+
+        },
+        {
+          text: 'Sí, finalizar',
+          role: 'confirm',
+          handler: () => {
+            this.DbService.terminarViaje(idViaje).then((res: any) => {
+              this.presentAlert('Información', 'Viaje Terminado', 'Revisa el detalle en el menu mis viajes');
+              this.router.navigate(['/menutabs/viajes']);
+            }, (error) => {
+              console.log(error);
+            })
+
+
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+
+  }
+
+  MostrarViajes() {
+    this.id = localStorage.getItem('id');
+    this.DbService.ObtenerViajes(this.id).then((res: any) => {
       console.log("Mostramos viaje" + JSON.stringify(res[0]));
-      this.rutas=res;
-      
-    },(error)=> {console.log(error);
+      this.rutas = res;
+
+    }, (error) => {
+      console.log(error);
     })
+  }
+
+  async presentAlert(header: string, subHeader: string, message: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      subHeader: subHeader,
+      message: message,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
   }
 
 
@@ -75,11 +81,10 @@ export class ViajesPage implements OnInit {
 
 
 
+  ionViewDidEnter() {
+    this.MostrarViajes();
 
-ionViewDidEnter(){
-  this.MostrarViajes();
-  
-}
+  }
 
 
 

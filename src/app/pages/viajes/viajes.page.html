@@ -13,98 +13,156 @@
     <ion-col size="12">
 
 
-      <ion-accordion-group>
+      <ion-accordion-group [value]="['proximos']">
+
         <ion-accordion value="proximos">
           <ion-item slot="header" color="primary">
-            <ion-label>Próximos</ion-label>
+            <ion-label>Próximos Viajes</ion-label>
           </ion-item>
           <div class="ion-padding" slot="content">
-
-
             <ion-grid>
-
               <ion-row>
                 <h4>Planifica tus viajes</h4>
               </ion-row>
 
               <ion-row *ngFor="let ruta of rutas">
-                <ion-accordion-group>
+                <ng-container *ngIf="ruta.estado==1">
+                  <ion-accordion-group>
 
-                  <ion-accordion value="first">
-                    <ion-item slot="header" color="light">
-                      <ion-avatar slot="start">
-                        <img alt="Ver perfil" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-                      </ion-avatar>
-                      <ion-label class="ion-text-wrap">{{ ruta.tipoUsuario }} | {{ ruta.origen }} | {{ ruta.destino}}
-                      </ion-label>
-                    </ion-item>
-
-                    <div class="ion-padding" slot="content">
-                      <ion-list>
-                        <ion-item-divider>
-                          <ion-label>
-                            Datos del viaje
-                          </ion-label>
-                        </ion-item-divider>
-
-                        <ion-item>
-                          <ion-label>Origen: {{ ruta.origen }}</ion-label>
-                        </ion-item>
-                        <ion-item>
-                          <ion-label>Destino: {{ ruta.destino }}</ion-label>
-                        </ion-item>
-                      
-                      <ion-item>
-                        <ion-label > Vehículo: {{ ruta.marca }}</ion-label>
-                      </ion-item> 
-                           <ion-item>
-                        <ion-label>Patente: {{ ruta.patente }}</ion-label>
+                    <ion-accordion value="first">
+                      <ion-item slot="header" color="light">
+                        <ion-avatar slot="start" *ngIf="ruta.tipoUsuario=='Conductor'">
+                          <img alt="Ver perfil" src="assets/images/conductor.png" />
+                        </ion-avatar>
+                        <ion-avatar slot="start" *ngIf="ruta.tipoUsuario=='Pasajero'">
+                          <img alt="Ver perfil" src="assets/images/pasajero.png" />
+                        </ion-avatar>
+                        <ion-label class="ion-text-wrap">{{ ruta.tipoUsuario }} | {{ ruta.origen }} | {{ ruta.destino}}
+                        </ion-label>
                       </ion-item>
 
-                        <ion-item>
-                          <ion-label>Asientos disponibles: {{ ruta.asientos }}</ion-label>
-                        </ion-item>
-                        <ion-item>
-                          <ion-label>Precio: {{ ruta.precio }}</ion-label>
-                        </ion-item>
+                      <div class="ion-padding" slot="content">
+                        <ion-list>
+                          <ion-item-divider>
+                            <ion-label>
+                              Datos del viaje
+                            </ion-label>
+                          </ion-item-divider>
 
-                        <!-- <ion-item-divider >
-                      <ion-label *ngIf="rutas.tipo_viaje=='Pasajero'">
-                        Datos del Conductor
-                      </ion-label>
-                      <ion-label *ngIf="rutas.tipo_viaje=='Conductor'">
-                        Datos del Pasajero
-                      </ion-label>
-                    </ion-item-divider>
-                    <ion-item *ngIf="rutas.tipo_viaje=='Conductor'">
-                      <ion-label>Nombre: {{ rutas.pasajero }}</ion-label>
-                    </ion-item>
-                    <ion-item *ngIf="rutas.tipo_viaje=='Pasajero'">
-                      <ion-label>Nombre: {{ rutas.conductor }}</ion-label>
-                    </ion-item> -->
+                          <ion-item>
+                            <ion-label>Nombre: {{ ruta.nombre }}</ion-label>
+                          </ion-item>
+                          <ion-item>
+                            <ion-label>Origen: {{ ruta.origen }}</ion-label>
+                          </ion-item>
+                          <ion-item>
+                            <ion-label>Destino: {{ ruta.destino }}</ion-label>
+                          </ion-item>
 
-                      </ion-list>
-                      <ion-button expand="full">Finalizar viaje</ion-button>
-                    </div>
+                          <ion-item>
+                            <ion-label> Vehículo: {{ ruta.marca }}</ion-label>
+                          </ion-item>
+                          <ion-item>
+                            <ion-label>Patente: {{ ruta.patente }}</ion-label>
+                          </ion-item>
 
-                  </ion-accordion>
+                          <ion-item>
+                            <ion-label>Asientos disponibles: {{ ruta.asientos }}</ion-label>
+                          </ion-item>
+                          <ion-item>
+                            <ion-label>Precio: {{ ruta.precio }}</ion-label>
+                          </ion-item>
+
+                        </ion-list>
+                        <ion-button expand="full" (click)="finalizarViaje(ruta.id)">Finalizar viaje</ion-button>
+                      </div>
+
+                    </ion-accordion>
 
 
-
-
-                </ion-accordion-group>
-
+                  </ion-accordion-group>
+                </ng-container>
               </ion-row>
 
-
             </ion-grid>
-
           </div>
         </ion-accordion>
 
+        <ion-accordion value="realizados">
+          <ion-item slot="header" color="primary">
+            <ion-label>Viajes Realizados</ion-label>
+          </ion-item>
+          <div class="ion-padding" slot="content">
+            <ion-grid>
+              <ion-row>
+                <h4>Revisa el detalle de tus viajes</h4>
+              </ion-row>
+
+              <ion-row *ngFor="let ruta of rutas">
+                <ng-container *ngIf="ruta.estado==0">
+                  <ion-accordion-group>
+
+                    <ion-accordion value="first">
+                      <ion-item slot="header" color="light">
+                        <ion-avatar slot="start" *ngIf="ruta.tipoUsuario=='Conductor'">
+                          <img alt="Ver perfil" src="assets/images/conductor.png" />
+                        </ion-avatar>
+                        <ion-avatar slot="start" *ngIf="ruta.tipoUsuario=='Pasajero'">
+                          <img alt="Ver perfil" src="assets/images/pasajero.png" />
+                        </ion-avatar>
+                        <ion-label class="ion-text-wrap">{{ ruta.tipoUsuario }} | {{ ruta.origen }} | {{ ruta.destino}}
+                        </ion-label>
+                      </ion-item>
+
+                      <div class="ion-padding" slot="content">
+                        <ion-list>
+                          <ion-item-divider>
+                            <ion-label>
+                              Datos del viaje
+                            </ion-label>
+                          </ion-item-divider>
+
+                          <ion-item>
+                            <ion-label>Nombre: {{ ruta.nombre }}</ion-label>
+                          </ion-item>
+                          <ion-item>
+                            <ion-label>Origen: {{ ruta.origen }}</ion-label>
+                          </ion-item>
+                          <ion-item>
+                            <ion-label>Destino: {{ ruta.destino }}</ion-label>
+                          </ion-item>
+
+                          <ion-item>
+                            <ion-label> Vehículo: {{ ruta.marca }}</ion-label>
+                          </ion-item>
+                          <ion-item>
+                            <ion-label>Patente: {{ ruta.patente }}</ion-label>
+                          </ion-item>
+
+                          <ion-item>
+                            <ion-label>Asientos disponibles: {{ ruta.asientos }}</ion-label>
+                          </ion-item>
+                          <ion-item>
+                            <ion-label>Precio: {{ ruta.precio }}</ion-label>
+                          </ion-item>
+
+                        </ion-list>
+                      </div>
+
+                    </ion-accordion>
+
+
+
+
+                  </ion-accordion-group>
+                </ng-container>
+              </ion-row>
+
+            </ion-grid>
+          </div>
+        </ion-accordion>
 
       </ion-accordion-group>
-
     </ion-col>
 
 

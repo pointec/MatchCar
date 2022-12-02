@@ -32,7 +32,7 @@ interpolacion={
 
 buscarRutas(){
   
-  this.DbService2.BuscarViajes(this.interpolacion.origen, this.interpolacion.destino, this.interpolacion.pasajeros).then((res)=>{
+  this.DbService2.BuscarViajes(this.interpolacion.origen, this.interpolacion.destino, this.interpolacion.pasajeros, this.id ).then((res)=>{
     this.rutas= res;
     
   },(error)=> {console.log(error);
@@ -56,8 +56,7 @@ async confirmarRuta(origen: string, destino: string, asientos: string, estado: n
         text: 'Confirmar',
         role: 'confirm',
         handler: () => {
-          this.id = localStorage.getItem("id");
-          this.user = localStorage.getItem("user");
+       
           this.DbService2.CrearViaje(origen,destino,asientos,estado,tipoUsuario,precio,this.id,patente,marca,nombre);
           console.log("Viaje ingresado con id: " + this.id )
           this.DbService2.presentToast("Ruta confirmada, revisa el detalle en la sección de viajes");
@@ -73,7 +72,8 @@ async confirmarRuta(origen: string, destino: string, asientos: string, estado: n
 }
 
   ngOnInit() {
-
+    this.id = localStorage.getItem("id");
+    this.user = localStorage.getItem("user");
 
   }
 
