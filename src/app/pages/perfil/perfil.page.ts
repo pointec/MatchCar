@@ -27,8 +27,31 @@ export class PerfilPage implements OnInit {
     this.router.navigate(['/autos']);
   }
 
-  eliminarAuto() {
+  async eliminarAuto() {
+    this.id = localStorage.getItem('id');
+    this.patente = localStorage.getItem('patente');
+    const alert = await this.alertController.create({
+      header: '¿Quieres eliminar este auto? ¡No se eliminarán tus viajes!',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
 
+        },
+        {
+          text: 'Confirmar',
+          role: 'confirm',
+          handler: () => {
+            this.DbService.eliminaAuto(this.patente, this.id);
+            this.DbService.presentToast("El auto ha sido eliminado");
+            this.router.navigate(['/perfil']);
+
+          },
+        },
+      ],
+    });
+
+    await alert.present();
 
   }
 
@@ -72,13 +95,18 @@ export class PerfilPage implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  cambiarClave() {
+    this.router.navigate(['/clave']);
+
+  }
+
   ObtieneAuto() {
 
     this.id = localStorage.getItem('id');
 
     this.DbService.ObtenerAutos(parseInt(this.id)).then((res: any) => {
       this.autos = res;
-      
+
 
 
     }, (error) => {

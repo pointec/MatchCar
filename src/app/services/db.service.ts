@@ -281,16 +281,38 @@ terminarViaje(idViaje: number){
     });
   }
 
+
+cambiaClave(clave:string, idUsuario: number){
+  return new Promise ((resolve,reject)=>{
+    let sql ="UPDATE usuarios SET clave=? where id=?;";
+    
+    this.database.executeSql(sql,[clave, idUsuario]).then((data)=>{
+      resolve(data);
+    },(error)=>{reject(error);
+    });
+    });
+
+}
 agregaAuto(patente: string, idUsuario: number, marca: string) {
   return new Promise((resolve, reject) => {
-    let sql = "INSERT or IGNORE INTO autos(patente, idUsuario, marca, 0) VALUES (?,?,?,?);";
-    this.database.executeSql(sql, [patente, idUsuario, marca]).then((data) => {
+    let sql = "INSERT or IGNORE INTO autos(patente, idUsuario, marca, activo) VALUES (?,?,?,?);";
+    this.database.executeSql(sql, [patente, idUsuario, marca,0]).then((data) => {
       resolve(data);
     }, (error) => {
       reject(error);
     });
   });
 }
+
+eliminaAuto(patente: string, idUsuario: number){
+  return new Promise ((resolve,reject)=>{
+    let sql ="DELETE FROM autos WHERE patente=? and idUsuario=?;";
+    this.database.executeSql(sql,[patente, idUsuario]).then((data)=>{
+      resolve(data);
+    },(error)=>{reject(error);
+    });
+    });
+  }
 
   async presentToast(mensaje: string) {
     const toast = await this.toastController.create({

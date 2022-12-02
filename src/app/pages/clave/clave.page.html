@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Cambio contraseña</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding">
+
+  <ion-card>
+    <ion-grid>
+
+      <ion-row>
+        <ion-col>
+          <ion-searchbar search-icon="shield-checkmark-sharp" placeholder="Ingrese la contraseña"
+            [(ngModel)]="clave"></ion-searchbar>
+        </ion-col>
+      </ion-row>
+
+    
+
+      <ion-row>
+        <ion-col>
+
+          <ion-button color="primary" expand="block" (click)="cambiarClave()">Guardar</ion-button>
+
+        </ion-col>
+      </ion-row>
+
+    </ion-grid>
+  </ion-card>
+
+</ion-content>

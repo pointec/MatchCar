@@ -42,9 +42,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/autos/autos.module').then( m => m.AutosPageModule)
   },
   {
+    path: 'clave',
+    loadChildren: () => import('./pages/clave/clave.module').then( m => m.ClavePageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/error/error.module').then( m => m.ErrorPageModule)
   },
+ 
 
 
  

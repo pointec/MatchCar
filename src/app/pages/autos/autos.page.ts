@@ -23,7 +23,7 @@ id:any;
     this.id= localStorage.getItem('id');
 
     const alert = await this.alertController.create({
-      header: '¿Quieres agregar este auto??',
+      header: '¿Quieres agregar este auto?',
       buttons: [
         {
           text: 'Cancelar',
@@ -34,9 +34,10 @@ id:any;
           text: 'Confirmar',
           role: 'confirm',
           handler: () => {
+         
             this.DbService.agregaAuto(this.auto.patente, this.id, this.auto.marca);
             this.DbService.presentToast("El auto ha sido agregado, seleccionalo si quieres dejarlo activo");
-            this.router.navigate(['/perfil']);
+            this.router.navigate(['/menutabs/perfil']);
 
           },
         },

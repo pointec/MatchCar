@@ -14,7 +14,7 @@
 
       <ion-row>
         <ion-col>
-          <ion-searchbar search-icon="car-sharp" placeholder="Ingrese la marcan"
+          <ion-searchbar search-icon="car-sharp" placeholder="Ingrese la marca"
             [(ngModel)]="auto.marca"></ion-searchbar>
         </ion-col>
       </ion-row>
@@ -22,7 +22,7 @@
     
       <ion-row>
         <ion-col>
-          <ion-searchbar  placeholder="Ingresa la patente Ej: RR-GG-48" [(ngModel)]="auto.patente">
+          <ion-searchbar  search-icon="car-sharp" placeholder="Ingresa la patente Ej: RR-GG-48" [(ngModel)]="auto.patente">
           </ion-searchbar>
         </ion-col>
       </ion-row>
@@ -32,7 +32,7 @@
       <ion-row>
         <ion-col>
 
-          <ion-button color="primary" expand="block" (click)="agregarAuto()">Buscar</ion-button>
+          <ion-button color="primary" expand="block" (click)="agregarAuto()">Agregar auto</ion-button>
 
         </ion-col>
       </ion-row>
