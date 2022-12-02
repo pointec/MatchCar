@@ -44,7 +44,7 @@ export class PerfilPage implements OnInit {
           handler: () => {
             this.DbService.eliminaAuto(this.patente, this.id);
             this.DbService.presentToast("El auto ha sido eliminado");
-            this.router.navigate(['/perfil']);
+            this.router.navigate(['/menutabs/perfil']);
 
           },
         },
@@ -121,6 +121,8 @@ export class PerfilPage implements OnInit {
   }
 
   ngOnInit() {
+    this.user = localStorage.getItem("user");
+    this.ObtieneAuto();
   }
 
 }
