@@ -4,7 +4,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
 
 
   <app-banner src="banner.png"></app-banner>
@@ -24,20 +24,24 @@
               <ion-row>
                 <h4>Planifica tus viajes</h4>
               </ion-row>
-
+              
+              
               <ion-row *ngFor="let ruta of rutas">
+                <ion-col size="12">
+                  
+                
                 <ng-container *ngIf="ruta.estado==1">
                   <ion-accordion-group>
 
                     <ion-accordion value="first">
                       <ion-item slot="header" color="light">
-                        <ion-avatar slot="start" *ngIf="ruta.tipoUsuario=='Conductor'">
+                        <ion-avatar slot="start">
                           <img alt="Ver perfil" src="assets/images/conductor.png" />
                         </ion-avatar>
-                        <ion-avatar slot="start" *ngIf="ruta.tipoUsuario=='Pasajero'">
+                        <!-- <ion-avatar slot="start" *ngIf="ruta.tipoUsuario=='Pasajero'">
                           <img alt="Ver perfil" src="assets/images/pasajero.png" />
-                        </ion-avatar>
-                        <ion-label class="ion-text-wrap">{{ ruta.tipoUsuario }} | {{ ruta.origen }} | {{ ruta.destino}}
+                        </ion-avatar> -->
+                        <ion-label class="ion-text-wrap"> Ruta | {{ ruta.origen }} | {{ ruta.destino}}
                         </ion-label>
                       </ion-item>
 
@@ -45,13 +49,10 @@
                         <ion-list>
                           <ion-item-divider>
                             <ion-label>
-                              Datos del viaje
+                              Datos de la Ruta
                             </ion-label>
                           </ion-item-divider>
 
-                          <ion-item>
-                            <ion-label>Nombre: {{ ruta.nombre }}</ion-label>
-                          </ion-item>
                           <ion-item>
                             <ion-label>Origen: {{ ruta.origen }}</ion-label>
                           </ion-item>
@@ -60,17 +61,23 @@
                           </ion-item>
 
                           <ion-item>
-                            <ion-label> Vehículo: {{ ruta.marca }}</ion-label>
+                            <ion-label> Auto: {{ ruta.marca }} | {{ ruta.patente }}</ion-label>
                           </ion-item>
+                          
                           <ion-item>
-                            <ion-label>Patente: {{ ruta.patente }}</ion-label>
+                            <ion-label>Asientos Ofrecidos: {{ ruta.asientos_ofrecidos }}</ion-label>
                           </ion-item>
 
                           <ion-item>
-                            <ion-label>Asientos disponibles: {{ ruta.asientos }}</ion-label>
+                            <ion-label>Asientos Disponibles: {{ ruta.asientos_disponibles }}</ion-label>
                           </ion-item>
+                          
                           <ion-item>
                             <ion-label>Precio: {{ ruta.precio }}</ion-label>
+                          </ion-item>
+                          
+                          <ion-item>
+                            <ion-label>Pasajeros: Sin pasajeros confirmados</ion-label>
                           </ion-item>
 
                         </ion-list>
@@ -82,6 +89,63 @@
 
                   </ion-accordion-group>
                 </ng-container>
+              </ion-col>
+              </ion-row>
+
+              <ion-row *ngFor="let viaje of viajes">
+                <ion-col size="12">
+                  
+                  <!-- *ngIf="viaje.estado==0" -->
+                <ng-container>
+                  <ion-accordion-group>
+
+                    <ion-accordion value="first">
+                      <ion-item slot="header" color="light">
+                        
+                         <ion-avatar slot="start">
+                          <img alt="Ver perfil" src="assets/images/pasajero.png" />
+                        </ion-avatar> 
+                        <ion-label class="ion-text-wrap"> Viaje | {{ viaje.origen }} | {{ viaje.destino}}
+                        </ion-label>
+                      </ion-item>
+
+                      <div class="ion-padding" slot="content">
+                        <ion-list>
+                          <ion-item-divider>
+                            <ion-label>
+                              Datos del Viaje
+                            </ion-label>
+                          </ion-item-divider>
+
+                          <ion-item>
+                            <ion-label>Conductor: {{ viaje.nombre }}</ion-label>
+                          </ion-item>
+                          <ion-item>
+                            <ion-label>Origen: {{ viaje.origen }}</ion-label>
+                          </ion-item>
+                          <ion-item>
+                            <ion-label>Destino: {{ viaje.destino }}</ion-label>
+                          </ion-item>
+
+                          <ion-item>
+                            <ion-label>Auto: {{ viaje.marca }} | {{ viaje.patente }}</ion-label>
+                          </ion-item>
+                          
+                          <ion-item>
+                            <ion-label>Precio: {{ viaje.precio }}</ion-label>
+                          </ion-item>
+                          
+
+                        </ion-list>
+                        <ion-button expand="full" (click)="finalizarViaje(viaje.id_ruta)">Finalizar viaje</ion-button>
+                      </div>
+
+                    </ion-accordion>
+
+
+                  </ion-accordion-group>
+                </ng-container>
+              </ion-col>
               </ion-row>
 
             </ion-grid>
@@ -98,19 +162,20 @@
                 <h4>Revisa el detalle de tus viajes</h4>
               </ion-row>
 
-              <ion-row *ngFor="let ruta of rutas">
-                <ng-container *ngIf="ruta.estado==0">
+              <ion-row *ngFor="let viaje of viajes">
+                <ion-col size="12">
+                  
+                  <!-- *ngIf="viaje.estado==0" -->
+                <ng-container >
                   <ion-accordion-group>
 
                     <ion-accordion value="first">
                       <ion-item slot="header" color="light">
-                        <ion-avatar slot="start" *ngIf="ruta.tipoUsuario=='Conductor'">
-                          <img alt="Ver perfil" src="assets/images/conductor.png" />
-                        </ion-avatar>
-                        <ion-avatar slot="start" *ngIf="ruta.tipoUsuario=='Pasajero'">
+                        
+                         <ion-avatar slot="start">
                           <img alt="Ver perfil" src="assets/images/pasajero.png" />
-                        </ion-avatar>
-                        <ion-label class="ion-text-wrap">{{ ruta.tipoUsuario }} | {{ ruta.origen }} | {{ ruta.destino}}
+                        </ion-avatar> 
+                        <ion-label class="ion-text-wrap"> Viaje | {{ viaje.origen }} | {{ viaje.destino}}
                         </ion-label>
                       </ion-item>
 
@@ -118,44 +183,39 @@
                         <ion-list>
                           <ion-item-divider>
                             <ion-label>
-                              Datos del viaje
+                              Datos del Viaje
                             </ion-label>
                           </ion-item-divider>
 
                           <ion-item>
-                            <ion-label>Nombre: {{ ruta.nombre }}</ion-label>
+                            <ion-label>Conductor: {{ viaje.nombre }}</ion-label>
                           </ion-item>
                           <ion-item>
-                            <ion-label>Origen: {{ ruta.origen }}</ion-label>
+                            <ion-label>Origen: {{ viaje.origen }}</ion-label>
                           </ion-item>
                           <ion-item>
-                            <ion-label>Destino: {{ ruta.destino }}</ion-label>
+                            <ion-label>Destino: {{ viaje.destino }}</ion-label>
                           </ion-item>
 
                           <ion-item>
-                            <ion-label> Vehículo: {{ ruta.marca }}</ion-label>
+                            <ion-label>Auto: {{ viaje.marca }} | {{ viaje.patente }}</ion-label>
                           </ion-item>
+                          
                           <ion-item>
-                            <ion-label>Patente: {{ ruta.patente }}</ion-label>
+                            <ion-label>Precio: {{ viaje.precio }}</ion-label>
                           </ion-item>
-
-                          <ion-item>
-                            <ion-label>Asientos disponibles: {{ ruta.asientos }}</ion-label>
-                          </ion-item>
-                          <ion-item>
-                            <ion-label>Precio: {{ ruta.precio }}</ion-label>
-                          </ion-item>
+                          
 
                         </ion-list>
+                        <ion-button expand="full" (click)="finalizarViaje(viaje.id_ruta)">Finalizar viaje</ion-button>
                       </div>
 
                     </ion-accordion>
 
 
-
-
                   </ion-accordion-group>
                 </ng-container>
+              </ion-col>
               </ion-row>
 
             </ion-grid>

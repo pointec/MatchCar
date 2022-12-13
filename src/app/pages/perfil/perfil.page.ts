@@ -10,13 +10,14 @@ import { AlertController } from '@ionic/angular';
   templateUrl: './perfil.page.html',
   styleUrls: ['./perfil.page.scss'],
 })
-export class PerfilPage implements OnInit {
+export class PerfilPage  {
   id: any
   autos: any;
   patente: any;
   marca: any;
   user: any;
   arr: any;
+  autoP: any;
 
   constructor(private router: Router,
     private DbService: DbService,
@@ -61,6 +62,7 @@ export class PerfilPage implements OnInit {
   }
 
   async elegirAuto(e: any) {
+   
     const alert = await this.alertController.create({
       header: '¿Quieres usar este auto para publicar rutas?',
       buttons: [
@@ -78,6 +80,7 @@ export class PerfilPage implements OnInit {
             console.log(arr[0] + ' | ' + arr[1])
             localStorage.setItem('marca', arr[0])
             localStorage.setItem('patente', arr[1])
+          
             this.DbService.presentToast("El auto ha sido elegido");
 
           },
@@ -114,15 +117,14 @@ export class PerfilPage implements OnInit {
     })
   }
 
-  ionViewDidEnter() {
+  
 
+  ionViewWillEnter() {
+    console.log('Home page will enter');
     this.user = localStorage.getItem("user");
     this.ObtieneAuto();
   }
 
-  ngOnInit() {
-    this.user = localStorage.getItem("user");
-    this.ObtieneAuto();
-  }
+
 
 }

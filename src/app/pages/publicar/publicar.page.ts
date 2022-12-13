@@ -47,7 +47,7 @@ export class PublicarPage implements OnInit {
           handler: () => {
             this.id = localStorage.getItem("id");
             this.user = localStorage.getItem("user");
-            this.DbService.CrearViaje(this.interpolacion.origen, this.interpolacion.destino, this.interpolacion.asientos, this.interpolacion.estado, this.interpolacion.tipoUsuario, this.interpolacion.precio, this.id, this.patente, this.marca, this.user);
+            this.DbService.CrearRuta(this.interpolacion.origen, this.interpolacion.destino, this.interpolacion.asientos, this.interpolacion.estado, this.interpolacion.tipoUsuario, this.interpolacion.precio, this.id, this.patente, this.marca, this.user);
             console.log("Viaje ingresado con id: " + this.id)
             this.DbService.presentToast("Ruta registrada");
             this.router.navigate(['/menutabs/viajes']);

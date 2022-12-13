@@ -12,6 +12,7 @@ export class ViajesPage implements OnInit {
 
   rutas: any;
   id: any;
+  viajes: any;
 
 
   constructor(private DbService: DbService,
@@ -54,11 +55,22 @@ export class ViajesPage implements OnInit {
 
   }
 
+  MostrarRutas() {
+    this.id = localStorage.getItem('id');
+    this.DbService.ObtenerRutas(this.id).then((res: any) => {
+      console.log("Mostramos Ruta conductor" + JSON.stringify(res[0]));
+      this.rutas = res;
+
+    }, (error) => {
+      console.log(error);
+    })
+  }
+
   MostrarViajes() {
     this.id = localStorage.getItem('id');
     this.DbService.ObtenerViajes(this.id).then((res: any) => {
-      console.log("Mostramos viaje" + JSON.stringify(res[0]));
-      this.rutas = res;
+      console.log("Mostramos viaje conductor" + JSON.stringify(res[0]));
+      this.viajes = res;
 
     }, (error) => {
       console.log(error);
@@ -82,6 +94,7 @@ export class ViajesPage implements OnInit {
 
 
   ionViewDidEnter() {
+    this.MostrarRutas();
     this.MostrarViajes();
 
   }

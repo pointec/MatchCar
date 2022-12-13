@@ -36,8 +36,8 @@ id:any;
           handler: () => {
          
             this.DbService.agregaAuto(this.auto.patente, this.id, this.auto.marca);
-            this.DbService.presentToast("El auto ha sido agregado, seleccionalo si quieres dejarlo activo");
-            this.router.navigate(['/menutabs/perfil']);
+            this.DbService.presentToast("El auto ha sido agregado, seleccionalo en tu perfil si quieres dejarlo predeterminado");
+            this.router.navigate(['/menutabs/buscar']);
 
           },
         },

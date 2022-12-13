@@ -27,12 +27,12 @@ export class BuscarPage implements OnInit {
 interpolacion={
   origen:"",
   destino:"",
-  pasajeros:""
+  pasajeros:0
 }
 
 buscarRutas(){
   
-  this.DbService2.BuscarViajes(this.interpolacion.origen, this.interpolacion.destino, this.interpolacion.pasajeros, this.id ).then((res)=>{
+  this.DbService2.BuscarRutas(this.interpolacion.origen, this.interpolacion.destino, this.interpolacion.pasajeros, this.id ).then((res)=>{
     this.rutas= res;
     
   },(error)=> {console.log(error);
@@ -43,7 +43,7 @@ buscarRutas(){
 
 
 
-async confirmarRuta(origen: string, destino: string, asientos: string, estado: number, tipoUsuario: string, precio:  string, idUsuario: number, patente: any, marca:any, nombre:any) {
+async confirmarRuta(id_ruta: number, destino: string, asientos_disponibles: number, estadoRuta: number) {
   const alert = await this.alertController.create({
     header: '¿Quieres confirmar la ruta hacia ' + destino,
     buttons: [
@@ -57,7 +57,7 @@ async confirmarRuta(origen: string, destino: string, asientos: string, estado: n
         role: 'confirm',
         handler: () => {
        
-          this.DbService2.CrearViaje(origen,destino,asientos,estado,tipoUsuario,precio,this.id,patente,marca,nombre);
+          this.DbService2.CrearViaje(id_ruta, this.id, asientos_disponibles, estadoRuta);
           console.log("Viaje ingresado con id: " + this.id )
           this.DbService2.presentToast("Ruta confirmada, revisa el detalle en la sección de viajes");
           this.router.navigate(['/menutabs/viajes']);

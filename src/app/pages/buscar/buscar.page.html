@@ -83,14 +83,15 @@
           <ion-label class="ion-text-wrap">{{ ruta.precio }} | {{ ruta.origen }} | {{ ruta.destino}}</ion-label>
         </ion-item>
         <div class="ion-padding" slot="content">
+          
           <h2>Conductor: {{ ruta.nombre }}</h2>
-          <h2>Marca: {{ ruta.marca }}</h2>
-          <h2>Patente: {{ ruta.patente }}</h2>
+          <h2>Auto: {{ ruta.marca }} | {{ ruta.patente }}</h2>
           <h2>Origen: {{ ruta.origen }}</h2>
           <h2>Destino: {{ ruta.destino }}</h2>
-          <h2>Asientos disponibles: {{ ruta.asientos }}</h2>
+          <h2>Asientos disponibles: {{ ruta.asientos_disponibles }}</h2>
           <h2>Precio: {{ ruta.precio }}</h2>
-          <ion-button fill="outline" (click)="confirmarRuta(ruta.origen,ruta.destino,ruta.asientos,1,'Pasajero',ruta.precio,ruta.idUsuario,ruta.patente,ruta.marca,ruta.nombre)">Confirmar</ion-button>
+          <ion-button fill="outline" (click)="confirmarRuta(ruta.id_ruta, ruta.destino, ruta.asientos_disponibles, ruta.estado)">Confirmar</ion-button>
+        <!-- id_viaje , estado integer(2), id_ruta_fk , id_usuario_fk integer -->
         </div>
       </ion-accordion>
     
@@ -100,21 +101,6 @@
 </ng-container>
 
 
-
-
-
-  <!-- <ion-grid class="historial">
-
-    <h4>Historial de búsqueda</h4>
-
-    <ion-item button detail="true" *ngFor="let historial of historial" (click)="buscarRutas()">
-      <ion-icon name="map-outline" slot="start" color="primary"></ion-icon>
-      <ion-label class="ion-text-wrap">
-        <h3>{{ historial.origen }} | {{ historial.destino}} <ion-icon name="people-outline"></ion-icon> {{
-          historial.pasajeros}}</h3>
-      </ion-label>
-    </ion-item>
-  </ion-grid> -->
 
 
 </ion-content>

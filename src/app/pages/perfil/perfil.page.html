@@ -95,8 +95,7 @@
             <ion-list>
               <ion-item>
                 <ion-select interface="action-sheet" placeholder="Selecciona un auto" (ionChange)="elegirAuto($event)">
-                  <ion-select-option value="{{auto.marca+'|'+auto.patente}}" *ngFor="let auto of autos">{{ auto.marca + ' | ' + auto.patente }}</ion-select-option>
-                </ion-select>
+                  <ion-select-option value="{{auto.marca+'|'+auto.patente}}" *ngFor="let auto of autos">{{ auto.marca + ' | ' + auto.patente }}</ion-select-option>                </ion-select>
               </ion-item>
             </ion-list>
           </ion-col>
